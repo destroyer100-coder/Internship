@@ -51,20 +51,20 @@ export default function Dashboard() {
   // Timeline & Notes state
   const [timelineItems, setTimelineItems] = useState(DEFAULT_TIMELINE)
   const [quickNotes, setQuickNotes] = useState(() => {
-    const saved = localStorage.getItem('taskflow_quick_notes')
+    const saved = localStorage.getItem('taskflow_all_notes')
     return saved ? JSON.parse(saved) : DEFAULT_NOTES
   })
   const [selectedDay, setSelectedDay] = useState('WED')
 
   // Stats State
   const [stats, setStats] = useState({
-    tasksToday: 12,
-    completedToday: 6,
-    eventsToday: 5,
-    nextEvent: '09:00 AM',
-    remindersCount: 3,
-    remindersUpcoming: 2,
-    overdueCount: 2,
+    tasksToday: 0,
+    completedToday: 0,
+    eventsToday: 0,
+    nextEvent: '--:--',
+    remindersCount: 0,
+    remindersUpcoming: 0,
+    overdueCount: 0,
   })
 
   const quickAddRef = useRef(null)
@@ -82,10 +82,21 @@ export default function Dashboard() {
   // Load Tasks and integrate with server
   useEffect(() => {
     getTasks({}).then(({ data }) => {
-      if (data && data.length > 0) {
-        // Integrate user's server tasks into timeline if available
+      if (data) {
         const todayStr = new Date().toISOString().slice(0, 10)
         const todayTasks = data.filter(t => t.dueDate?.slice(0, 10) === todayStr)
+        const overdue = data.filter(t => t.dueDate && t.dueDate < todayStr && t.status !== 'Completed').length
+        const completed = todayTasks.filter(t => t.status === 'Completed').length
+        const events = todayTasks.filter(t => t.category === 'Work' && t.title.toLowerCase().includes('meeting')).length
+
+        setStats(prev => ({
+          ...prev,
+          tasksToday: todayTasks.length,
+          completedToday: completed,
+          eventsToday: events,
+          overdueCount: overdue
+        }))
+
         if (todayTasks.length > 0) {
           const mapped = todayTasks.map((t, idx) => {
             const time = t.dueTime ? new Date('1970-01-01T' + t.dueTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : `0${9 + idx * 2}:00 AM`
@@ -104,8 +115,8 @@ export default function Dashboard() {
             }
           })
           setTimelineItems(mapped)
-          const comp = todayTasks.filter(t => t.status === 'Completed').length
-          setStats(prev => ({ ...prev, tasksToday: todayTasks.length, completedToday: comp }))
+        } else {
+          setTimelineItems([])
         }
       }
     }).catch(() => {})
@@ -122,7 +133,7 @@ export default function Dashboard() {
     const previous = undoNotesHistory[undoNotesHistory.length - 1]
     setUndoNotesHistory(prev => prev.slice(0, -1))
     setQuickNotes(previous)
-    localStorage.setItem('taskflow_quick_notes', JSON.stringify(previous))
+    localStorage.setItem('taskflow_all_notes', JSON.stringify(previous))
     toast.success('Undone successfully! ↩️')
   }
 
@@ -144,7 +155,7 @@ export default function Dashboard() {
       updated = [...quickNotes, { ...note, ...styling }]
     }
     setQuickNotes(updated)
-    localStorage.setItem('taskflow_quick_notes', JSON.stringify(updated))
+    localStorage.setItem('taskflow_all_notes', JSON.stringify(updated))
     toast.success(editingNote ? 'Note updated' : 'Note created')
   }
 
@@ -152,7 +163,7 @@ export default function Dashboard() {
     setUndoNotesHistory(prev => [...prev, quickNotes])
     const updated = quickNotes.filter(n => n.id !== id)
     setQuickNotes(updated)
-    localStorage.setItem('taskflow_quick_notes', JSON.stringify(updated))
+    localStorage.setItem('taskflow_all_notes', JSON.stringify(updated))
     toast.success(
       <div className="flex items-center justify-between gap-2">
         <span>Note deleted</span>
