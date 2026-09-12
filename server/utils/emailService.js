@@ -55,7 +55,7 @@ const sendOtpEmail = async (toEmail, otp) => {
     </p>
     <div style="background:#F1EFE9;border:2px dashed #DEDCD5;border-radius:12px;padding:28px;text-align:center;margin-bottom:28px;">
       <p style="color:#89919A;font-size:11px;font-weight:bold;letter-spacing:2px;margin:0 0 10px;text-transform:uppercase;">Your OTP Code</p>
-      <p style="color:#145A4A;font-size:46px;font-weight:900;letter-spacing:12px;margin:0;font-family:monospace;">${otp}</p>
+      <p style="color:#145A4A;font-size:40px;font-weight:900;letter-spacing:8px;margin:0;font-family:monospace;white-space:nowrap;">${otp}</p>
     </div>
     <p style="color:#89919A;font-size:12px;margin:0;">If you did not request this code, please ignore this email.</p>
   `);

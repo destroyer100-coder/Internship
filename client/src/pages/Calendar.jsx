@@ -11,27 +11,7 @@ import { getTasks, updateTask } from '../services/api'
 import { toast } from 'react-toastify'
 
 // Curated default task templates for visual completeness matching reference design
-const DEFAULT_TASKS_DATA = [
-  { id: 't1', title: 'CEO Meeting', location: 'Conference Room', date: '2026-08-26', time: '09:00 AM', category: 'Meeting', priority: 'High', completed: true },
-  { id: 't2', title: 'Prepare Monthly Report', location: 'Work', date: '2026-08-26', time: '11:00 AM', category: 'Task', priority: 'Medium', completed: true },
-  { id: 't3', title: 'Client Call', location: 'Zoom Meeting', date: '2026-08-26', time: '02:00 PM', category: 'Meeting', priority: 'High', completed: true },
-  { id: 't4', title: 'Review & Approve Documents', location: 'Finance', date: '2026-08-26', time: '04:00 PM', category: 'Task', priority: 'Medium', completed: true },
-  { id: 't5', title: 'Gym', location: 'Personal', date: '2026-08-26', time: '06:00 PM', category: 'Reminder', priority: 'Low', completed: true },
-  { id: 't6', title: 'Workout', location: 'Fitness Club', date: '2026-08-01', time: '08:00 AM', category: 'Health', priority: 'Medium' },
-  { id: 't7', title: 'Brunch', location: 'Cafe Bistro', date: '2026-08-02', time: '11:30 AM', category: 'Personal', priority: 'Low' },
-  { id: 't8', title: 'Team Standup', location: 'Online', date: '2026-08-03', time: '10:00 AM', category: 'Work', priority: 'Medium' },
-  { id: 't9', title: 'Report Review', location: 'Office', date: '2026-08-03', time: '03:00 PM', category: 'Work', priority: 'Medium' },
-  { id: 't10', title: 'Client Call', location: 'Zoom', date: '2026-08-04', time: '02:00 PM', category: 'Meeting', priority: 'High' },
-  { id: 't11', title: 'Send Proposal', location: 'Work', date: '2026-08-05', time: '01:00 PM', category: 'Work', priority: 'High' },
-  { id: 't12', title: 'Work on PRD', location: 'Dev Desk', date: '2026-08-06', time: '10:00 AM', category: 'Work', priority: 'Medium' },
-  { id: 't13', title: 'Design Sync', location: 'Design Lab', date: '2026-08-07', time: '11:00 AM', category: 'Work', priority: 'Medium' },
-  { id: 't14', title: 'Groceries', location: 'Market', date: '2026-08-08', time: '05:00 PM', category: 'Personal', priority: 'Low' },
-  { id: 't15', title: 'Family Time', location: 'Home', date: '2026-08-09', time: '06:00 PM', category: 'Personal', priority: 'Low' },
-  { id: 't16', title: 'Sprint Planning', location: 'Room B', date: '2026-08-17', time: '09:30 AM', category: 'Work', priority: 'High' },
-  { id: 't17', title: 'Project Deadline', location: 'Client Portal', date: '2026-08-28', time: '06:30 PM', category: 'Work', priority: 'High' },
-  { id: 't18', title: 'Monthly Report', location: 'Finance Hub', date: '2026-08-31', time: '11:00 AM', category: 'Work', priority: 'High' },
-  { id: 't19', title: 'Tax Documents', location: 'Accountant', date: '2026-09-02', time: '04:00 PM', category: 'Finance', priority: 'Medium' },
-]
+const DEFAULT_TASKS_DATA = []
 
 // Day category colors
 const CATEGORY_STYLES = {

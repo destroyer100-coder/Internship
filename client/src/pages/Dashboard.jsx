@@ -13,29 +13,13 @@ import { useAuth } from '../context/AuthContext'
 import { toast } from 'react-toastify'
 
 // Default schedule items matching the reference image
-const DEFAULT_TIMELINE = [
-  { id: '1', time: '09:00 AM', dotColor: 'bg-[#B65D52]', icon: Users, title: 'CEO Meeting', location: 'Conference Room', category: 'Meeting', tagClass: 'tag-meeting', completed: true },
-  { id: '2', time: '11:00 AM', dotColor: 'bg-[#4F8068]', icon: FileText, title: 'Prepare Monthly Report', location: 'Work', category: 'Task', tagClass: 'tag-task', completed: true },
-  { id: '3', time: '01:00 PM', dotColor: 'bg-[#89919A]', icon: Coffee, title: 'Lunch Break', location: '', category: 'Personal', tagClass: 'tag-personal', completed: true },
-  { id: '4', time: '02:00 PM', dotColor: 'bg-[#61758A]', icon: Video, title: 'Client Call', location: 'Zoom Meeting', category: 'Meeting', tagClass: 'tag-meeting', completed: true },
-  { id: '5', time: '04:00 PM', dotColor: 'bg-[#145A4A]', icon: FileText, title: 'Review & Approve Documents', location: 'Finance', category: 'Task', tagClass: 'tag-task', completed: true },
-  { id: '6', time: '06:00 PM', dotColor: 'bg-[#B78332]', icon: Dumbbell, title: 'Gym', location: '', category: 'Personal', tagClass: 'tag-personal', completed: true },
-]
+const DEFAULT_TIMELINE = []
 
 // Default quick notes matching the reference image
-const DEFAULT_NOTES = [
-  { id: 'n1', text: 'Call Rahul at 4 PM', timeLabel: 'Today, 04:00 PM', color: 'yellow', bg: 'bg-[#FAF2E6] dark:bg-[#251D14]', border: 'border-[#EADCC8] dark:border-[#543E19]', quote: 'text-[#B78332]', tagText: 'text-[#B78332]' },
-  { id: 'n2', text: 'Bring documents for meeting', timeLabel: 'Tomorrow', color: 'green', bg: 'bg-[#EBF3EF] dark:bg-[#13241C]', border: 'border-[#C8DDD2] dark:border-[#1E4D30]', quote: 'text-[#4F8068]', tagText: 'text-[#4F8068]' },
-  { id: 'n3', text: 'Ask HR about annual report', timeLabel: '28 Aug', color: 'blue', bg: 'bg-[#EEF3F8] dark:bg-[#121E2C]', border: 'border-[#CAD8E6] dark:border-[#1A3A54]', quote: 'text-[#61758A]', tagText: 'text-[#61758A]' },
-  { id: 'n4', text: 'Book tickets for client visit', timeLabel: '30 Aug', color: 'purple', bg: 'bg-[#F3EDF4] dark:bg-[#231A26]', border: 'border-[#D9CDDC] dark:border-[#4B3450]', quote: 'text-[#765C78]', tagText: 'text-[#765C78]' },
-]
+const DEFAULT_NOTES = []
 
 // Default upcoming reminders matching the reference image
-const DEFAULT_REMINDERS = [
-  { id: 'r1', title: 'Call Rahul', time: 'Today, 04:00 PM', iconBg: 'bg-[#F8EBEA] text-[#B65D52]', tagBg: 'bg-[#F8EBEA] text-[#B65D52]' },
-  { id: 'r2', title: 'Submit Financial Report', time: 'Today, 06:00 PM', iconBg: 'bg-[#FAF2E6] text-[#B78332]', tagBg: 'bg-[#FAF2E6] text-[#B78332]' },
-  { id: 'r3', title: 'Buy Office Supplies', time: 'Tomorrow, 11:00 AM', iconBg: 'bg-[#EBF3EF] text-[#4F8068]', tagBg: 'bg-[#EBF3EF] text-[#4F8068]' },
-]
+const DEFAULT_REMINDERS = []
 
 // Weekdays matching the strip in the screenshot
 const WEEK_DAYS = [
