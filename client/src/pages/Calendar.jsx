@@ -29,7 +29,7 @@ export default function CalendarPage() {
   // Current view date (stores Year, Month, Day)
   const todayReal = new Date()
   const [currentDate, setCurrentDate] = useState(todayReal)
-  const [selectedDateStr, setSelectedDateStr] = useState(todayReal.toISOString().slice(0, 10))
+  const [selectedDateStr, setSelectedDateStr] = useState(todayReal.toLocaleDateString('en-CA'))
   const [viewMode, setViewMode] = useState('Month') // 'Month' | 'Week' | 'Day'
   const [allTasks, setAllTasks] = useState(DEFAULT_TASKS_DATA)
 
@@ -115,7 +115,7 @@ export default function CalendarPage() {
   const handleToday = () => {
     const today = new Date()
     setCurrentDate(today)
-    setSelectedDateStr(today.toISOString().slice(0, 10))
+    setSelectedDateStr(today.toLocaleDateString('en-CA'))
   }
 
   // Header Title formatted dynamically
@@ -152,7 +152,7 @@ export default function CalendarPage() {
     for (let i = mondayShiftedIndex - 1; i >= 0; i--) {
       const dayNum = daysInPrevMonth - i
       const prevDate = new Date(year, month - 1, dayNum)
-      const dateStr = prevDate.toISOString().slice(0, 10)
+      const dateStr = prevDate.toLocaleDateString('en-CA')
       const events = allTasks.filter(t => t.date === dateStr)
       cells.push({
         dayNum,
@@ -181,7 +181,7 @@ export default function CalendarPage() {
     const remaining = totalCells - cells.length
     for (let dayNum = 1; dayNum <= remaining; dayNum++) {
       const nextDate = new Date(year, month + 1, dayNum)
-      const dateStr = nextDate.toISOString().slice(0, 10)
+      const dateStr = nextDate.toLocaleDateString('en-CA')
       const events = allTasks.filter(t => t.date === dateStr)
       cells.push({
         dayNum,
@@ -206,7 +206,7 @@ export default function CalendarPage() {
     for (let i = 0; i < 7; i++) {
       const d = new Date(startOfWeek)
       d.setDate(startOfWeek.getDate() + i)
-      const dateStr = d.toISOString().slice(0, 10)
+      const dateStr = d.toLocaleDateString('en-CA')
       const events = allTasks.filter(t => t.date === dateStr)
       days.push({
         dayName: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),

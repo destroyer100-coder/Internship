@@ -101,7 +101,7 @@ export default function Dashboard() {
   useEffect(() => {
     getTasks({}).then(({ data }) => {
       if (data) {
-        const todayStr = new Date().toISOString().slice(0, 10)
+        const todayStr = new Date().toLocaleDateString('en-CA')
         const todayTasks = data.filter(t => t.dueDate?.slice(0, 10) === todayStr)
         const overdue = data.filter(t => t.dueDate && t.dueDate < todayStr && t.status !== 'Completed').length
         const completed = todayTasks.filter(t => t.status === 'Completed').length

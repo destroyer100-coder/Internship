@@ -55,7 +55,7 @@ export default function NotesReminders() {
   const fileInputRef = useRef(null)
   
   // Custom Datetime in Popovers
-  const [customDateVal, setCustomDateVal] = useState(new Date().toISOString().slice(0, 10))
+  const [customDateVal, setCustomDateVal] = useState(new Date().toLocaleDateString('en-CA'))
   const [customTimeVal, setCustomTimeVal] = useState('17:00')
   const [customTagInput, setCustomTagInput] = useState('')
   
@@ -73,7 +73,7 @@ export default function NotesReminders() {
   const [taskModalInitialData, setTaskModalInitialData] = useState(null)
   const [isAddReminderModalOpen, setIsAddReminderModalOpen] = useState(false)
   const [newReminderTitle, setNewReminderTitle] = useState('')
-  const [newReminderDate, setNewReminderDate] = useState(new Date().toISOString().slice(0, 10))
+  const [newReminderDate, setNewReminderDate] = useState(new Date().toLocaleDateString('en-CA'))
   const [newReminderTimeOnly, setNewReminderTimeOnly] = useState('17:00')
   const [newReminderCategory, setNewReminderCategory] = useState('Work')
 
@@ -193,7 +193,7 @@ export default function NotesReminders() {
   // Format YYYY-MM-DD to "26 Aug"
   const formatDateHelper = (dStr) => {
     if (!dStr) return 'Today'
-    const todayStr = new Date().toISOString().slice(0, 10)
+    const todayStr = new Date().toLocaleDateString('en-CA')
     if (dStr === todayStr) return 'Today'
     const parts = dStr.split('-')
     if (parts.length < 3) return dStr
@@ -1706,11 +1706,11 @@ export default function NotesReminders() {
                 <label className="block text-[10px] font-semibold text-[#89919A] mb-1">Quick Presets</label>
                 <div className="flex flex-wrap gap-1">
                   {[
-                    { label: 'Today 3 PM', d: new Date().toISOString().slice(0, 10), t: '15:00' },
-                    { label: 'Today 5 PM', d: new Date().toISOString().slice(0, 10), t: '17:00' },
-                    { label: 'Tonight 8 PM', d: new Date().toISOString().slice(0, 10), t: '20:00' },
-                    { label: 'Tomorrow 9 AM', d: new Date(Date.now() + 86400000).toISOString().slice(0, 10), t: '09:00' },
-                    { label: 'Tomorrow 2 PM', d: new Date(Date.now() + 86400000).toISOString().slice(0, 10), t: '14:00' }
+                    { label: 'Today 3 PM', d: new Date().toLocaleDateString('en-CA'), t: '15:00' },
+                    { label: 'Today 5 PM', d: new Date().toLocaleDateString('en-CA'), t: '17:00' },
+                    { label: 'Tonight 8 PM', d: new Date().toLocaleDateString('en-CA'), t: '20:00' },
+                    { label: 'Tomorrow 9 AM', d: new Date(Date.now() + 86400000).toLocaleDateString('en-CA'), t: '09:00' },
+                    { label: 'Tomorrow 2 PM', d: new Date(Date.now() + 86400000).toLocaleDateString('en-CA'), t: '14:00' }
                   ].map((p, idx) => (
                     <button
                       key={idx}

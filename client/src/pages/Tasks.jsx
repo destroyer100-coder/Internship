@@ -46,7 +46,7 @@ export default function Tasks() {
           _id: t._id,
           title: t.title,
           description: t.description || 'No description provided.',
-          dueDate: t.dueDate ? t.dueDate.slice(0, 10) : new Date().toISOString().slice(0, 10),
+          dueDate: t.dueDate ? t.dueDate.slice(0, 10) : new Date().toLocaleDateString('en-CA'),
           dueTime: t.dueTime || '09:00',
           priority: t.priority || 'Medium',
           status: t.status || 'To Do',
@@ -140,7 +140,7 @@ export default function Tasks() {
   const handleOpenReminderModal = (e, task) => {
     if (e) e.stopPropagation()
     setReminderModalTask(task)
-    setReminderDate(task.dueDate || new Date().toISOString().slice(0, 10))
+    setReminderDate(task.dueDate || new Date().toLocaleDateString('en-CA'))
     setReminderTime(task.dueTime || '09:00')
     setOpenActionMenuId(null)
   }
@@ -404,7 +404,7 @@ export default function Tasks() {
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">Today</span>
             <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
-              {tasks.filter(t => t.dueDate?.slice(0, 10) === new Date().toISOString().slice(0, 10)).length}
+              {tasks.filter(t => t.dueDate?.slice(0, 10) === new Date().toLocaleDateString('en-CA')).length}
             </span>
             <span className="text-[11px] text-[#5F6872] dark:text-gray-400 block mt-0.5">Tasks planned for today</span>
           </div>
@@ -418,7 +418,7 @@ export default function Tasks() {
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">Due Soon</span>
             <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
-              {tasks.filter(t => t.dueDate > new Date().toISOString().slice(0, 10) && t.dueDate <= new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)).length}
+              {tasks.filter(t => t.dueDate > new Date().toLocaleDateString('en-CA') && t.dueDate <= new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA')).length}
             </span>
             <span className="text-[11px] text-[#5F6872] dark:text-gray-400 block mt-0.5">Within next 3 days</span>
           </div>
