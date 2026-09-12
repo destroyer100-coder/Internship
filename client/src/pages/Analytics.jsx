@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { CheckCircle, Clock, TrendingUp, AlertCircle } from 'lucide-react'
+import { getTasks } from '../services/api'
 
 const COLORS = ['#145A4A', '#B78332', '#4F8068', '#B65D52', '#765C78', '#61758A']
 
@@ -16,26 +17,7 @@ const StatCard = ({ title, value, icon: Icon, color, suffix = '' }) => (
   </div>
 )
 
-// Compute analytics purely from localStorage tasks — no backend needed
-function computeAnalytics() {
-  let tasks = []
-  try {
-    const raw = localStorage.getItem('taskflow_tasks')
-    if (raw) tasks = JSON.parse(raw)
-  } catch {}
-
-  // Fallback demo data if localStorage is empty
-  if (!tasks.length) {
-    tasks = [
-      { status: 'Completed', category: 'Work',     priority: 'High'   },
-      { status: 'Completed', category: 'Work',     priority: 'Medium' },
-      { status: 'Pending',   category: 'Personal', priority: 'Low'    },
-      { status: 'In Progress', category: 'Health', priority: 'High'   },
-      { status: 'Completed', category: 'Personal', priority: 'Low'    },
-      { status: 'Pending',   category: 'Work',     priority: 'Medium' },
-    ]
-  }
-
+function computeAnalytics(tasks) {
   const total       = tasks.length
   const completed   = tasks.filter(t => t.status === 'Completed').length
   const inProgress  = tasks.filter(t => t.status === 'In Progress').length
@@ -53,10 +35,14 @@ function computeAnalytics() {
 }
 
 export default function Analytics() {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState({
+    total: 0, completed: 0, inProgress: 0, pending: 0, completionRate: 0, byCategory: {}, byPriority: {}
+  })
 
   useEffect(() => {
-    setData(computeAnalytics())
+    getTasks({}).then(({ data }) => {
+      if (data) setData(computeAnalytics(data))
+    }).catch(() => {})
   }, [])
 
   if (!data) return (

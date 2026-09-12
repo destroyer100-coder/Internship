@@ -403,7 +403,9 @@ export default function Tasks() {
           </div>
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">Today</span>
-            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">12</span>
+            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
+              {tasks.filter(t => t.dueDate?.slice(0, 10) === new Date().toISOString().slice(0, 10)).length}
+            </span>
             <span className="text-[11px] text-[#5F6872] dark:text-gray-400 block mt-0.5">Tasks planned for today</span>
           </div>
         </div>
@@ -415,7 +417,9 @@ export default function Tasks() {
           </div>
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">Due Soon</span>
-            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">4</span>
+            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
+              {tasks.filter(t => t.dueDate > new Date().toISOString().slice(0, 10) && t.dueDate <= new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)).length}
+            </span>
             <span className="text-[11px] text-[#5F6872] dark:text-gray-400 block mt-0.5">Within next 3 days</span>
           </div>
         </div>
@@ -427,7 +431,9 @@ export default function Tasks() {
           </div>
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">In Progress</span>
-            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">3</span>
+            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
+              {tasks.filter(t => t.status === 'In Progress').length}
+            </span>
             <span className="text-[11px] text-[#5F6872] dark:text-gray-400 block mt-0.5">Keep it going</span>
           </div>
         </div>
@@ -439,7 +445,9 @@ export default function Tasks() {
           </div>
           <div>
             <span className="text-xs font-semibold text-[#5F6872] dark:text-gray-400 block">Completed</span>
-            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">8</span>
+            <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-tight">
+              {tasks.filter(t => t.status === 'Completed').length}
+            </span>
             <span className="text-[11px] text-[#4F8068] font-medium block mt-0.5">Well done!</span>
           </div>
         </div>

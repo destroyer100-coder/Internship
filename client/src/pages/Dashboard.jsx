@@ -207,7 +207,7 @@ export default function Dashboard() {
             Good Morning, {firstName}! <span>👋</span>
           </h1>
           <p className="text-sm font-medium text-[#5F6872] dark:text-gray-400 mt-1">
-            Wednesday, 26 August 2026
+            {new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
 
@@ -670,7 +670,7 @@ export default function Dashboard() {
                 {/* Center Content */}
                 <div className="absolute flex flex-col items-center justify-center text-center">
                   <span className="text-2xl font-bold font-serif text-[#17202A] dark:text-white leading-none">
-                    6/9
+                    {stats.completedToday}/{stats.tasksToday}
                   </span>
                   <span className="text-[11px] font-semibold text-[#5F6872] dark:text-gray-400 mt-1">
                     Completed
@@ -682,15 +682,15 @@ export default function Dashboard() {
               <div className="flex-1 space-y-2.5 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="text-[#5F6872] dark:text-gray-400 font-medium">Planned Items</span>
-                  <span className="font-bold text-[#17202A] dark:text-white text-sm">9</span>
+                  <span className="font-bold text-[#17202A] dark:text-white text-sm">{stats.tasksToday}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5F6872] dark:text-gray-400 font-medium">Completed</span>
-                  <span className="font-bold text-[#4F8068] dark:text-emerald-400 text-sm">6</span>
+                  <span className="font-bold text-[#4F8068] dark:text-emerald-400 text-sm">{stats.completedToday}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5F6872] dark:text-gray-400 font-medium">Remaining</span>
-                  <span className="font-bold text-[#B78332] dark:text-amber-400 text-sm">3</span>
+                  <span className="font-bold text-[#B78332] dark:text-amber-400 text-sm">{stats.tasksToday - stats.completedToday}</span>
                 </div>
               </div>
 
@@ -701,7 +701,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#F7F5F0] dark:bg-[#101C2B]">
                 <Clock size={16} className="text-[#5F6872] flex-shrink-0" />
                 <div>
-                  <p className="text-xs font-bold text-[#17202A] dark:text-white leading-tight">2h 40m</p>
+                  <p className="text-xs font-bold text-[#17202A] dark:text-white leading-tight">--</p>
                   <p className="text-[10px] text-[#5F6872] font-medium">Planned Time</p>
                 </div>
               </div>
@@ -709,7 +709,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#F7F5F0] dark:bg-[#101C2B]">
                 <Clock size={16} className="text-[#5F6872] flex-shrink-0" />
                 <div>
-                  <p className="text-xs font-bold text-[#17202A] dark:text-white leading-tight">1h 55m</p>
+                  <p className="text-xs font-bold text-[#17202A] dark:text-white leading-tight">--</p>
                   <p className="text-[10px] text-[#5F6872] font-medium">Remaining Time</p>
                 </div>
               </div>
