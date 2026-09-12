@@ -46,7 +46,7 @@ export default function Tasks() {
           _id: t._id,
           title: t.title,
           description: t.description || 'No description provided.',
-          dueDate: t.dueDate ? t.dueDate.slice(0, 10) : '2026-08-26',
+          dueDate: t.dueDate ? t.dueDate.slice(0, 10) : new Date().toISOString().slice(0, 10),
           dueTime: t.dueTime || '09:00',
           priority: t.priority || 'Medium',
           status: t.status || 'To Do',
@@ -54,15 +54,15 @@ export default function Tasks() {
           timeSpent: '1h',
           timeEstimated: '2h',
           starred: false,
-          reminder: '26 Aug 2026, 09:00 AM',
+          reminder: '',
           recurrence: 'Does not repeat',
           notes: t.description || 'No extra notes.',
           loggedTime: '30m',
           remainingTime: '1h 30m',
-          scheduledRange: '09:00 AM - 11:00 AM',
+          scheduledRange: '',
           progress: t.status === 'Completed' ? 100 : t.status === 'In Progress' ? 50 : 0,
-          createdAt: '26 Aug 2026, 09:00 AM',
-          updatedAt: '26 Aug 2026, 09:00 AM',
+          createdAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+          updatedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
           iconType: idx % 3 === 0 ? 'file' : idx % 3 === 1 ? 'users' : 'folder',
           iconBg: idx % 3 === 0 ? 'bg-[#E7F0EC] text-[#145A4A]' : idx % 3 === 1 ? 'bg-[#F3EDF4] text-[#765C78]' : 'bg-[#FAF2E6] text-[#B78332]',
           isServer: true
@@ -229,7 +229,7 @@ export default function Tasks() {
 
   // Format date helper: 2026-08-26 -> 26 Aug
   const formatShortDate = (dStr) => {
-    if (!dStr) return '26 Aug'
+    if (!dStr) return new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
     const parts = dStr.split('-')
     if (parts.length < 3) return dStr
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -937,7 +937,7 @@ export default function Tasks() {
                       <Bell size={13} /> Reminder
                     </span>
                     <span className="font-semibold text-[#17202A] dark:text-white">
-                      {selectedTask.reminder || '26 Aug 2026, 09:00 AM'}
+                      {selectedTask.reminder || 'None'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[#5F6872]">
@@ -1015,7 +1015,7 @@ export default function Tasks() {
                   <div className="p-2 rounded-xl bg-[#F7F5F0] dark:bg-[#172638]">
                     <span className="text-[10px] text-[#5F6872] block">Scheduled</span>
                     <span className="text-[10px] font-bold text-[#17202A] dark:text-white block mt-0.5 truncate">
-                      {selectedTask.scheduledRange || '11:00 AM'}
+                      {selectedTask.scheduledRange || 'None'}
                     </span>
                   </div>
                   <div className="p-2 rounded-xl bg-[#F7F5F0] dark:bg-[#172638]">
@@ -1105,11 +1105,11 @@ export default function Tasks() {
               <div className="pt-3 border-t border-[#DEDCD5] dark:border-[#1E2D40] flex items-center justify-between text-[10px] text-[#5F6872]">
                 <div>
                   <span className="block">Created</span>
-                  <span className="font-semibold text-[#17202A] dark:text-white">{selectedTask.createdAt || '24 Aug 2026, 09:15 AM'}</span>
+                  <span className="font-semibold text-[#17202A] dark:text-white">{selectedTask.createdAt || 'Unknown'}</span>
                 </div>
                 <div className="text-right">
                   <span className="block">Last Updated</span>
-                  <span className="font-semibold text-[#17202A] dark:text-white">{selectedTask.updatedAt || '26 Aug 2026, 09:30 AM'}</span>
+                  <span className="font-semibold text-[#17202A] dark:text-white">{selectedTask.updatedAt || 'Unknown'}</span>
                 </div>
               </div>
             </>

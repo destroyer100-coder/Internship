@@ -21,16 +21,34 @@ const DEFAULT_NOTES = []
 // Default upcoming reminders matching the reference image
 const DEFAULT_REMINDERS = []
 
-// Weekdays matching the strip in the screenshot
-const WEEK_DAYS = [
-  { day: 'MON', date: '25', tasks: '2 tasks', active: false },
-  { day: 'TUE', date: '26', tasks: '3 tasks', active: false },
-  { day: 'WED', date: '26', tasks: '4 tasks', active: true },
-  { day: 'THU', date: '27', tasks: '5 tasks', active: false },
-  { day: 'FRI', date: '28', tasks: '2 tasks', active: false },
-  { day: 'SAT', date: '29', tasks: '1 task',  active: false },
-  { day: 'SUN', date: '30', tasks: '0 tasks', active: false },
-]
+// Generate current week dynamically
+const getWeekDays = () => {
+  const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+  const today = new Date()
+  const currentDayOfWeek = today.getDay() // 0 (Sun) to 6 (Sat)
+  
+  // Calculate Monday of the current week (assuming Monday is start of week)
+  const diffToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek
+  const monday = new Date(today)
+  monday.setDate(today.getDate() + diffToMonday)
+
+  const week = []
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + i)
+    const isToday = d.toDateString() === today.toDateString()
+    
+    week.push({
+      day: days[d.getDay()],
+      date: String(d.getDate()),
+      tasks: '0 tasks', // We will update this dynamically later if needed
+      active: isToday
+    })
+  }
+  return week
+}
+
+const WEEK_DAYS = getWeekDays()
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -54,7 +72,7 @@ export default function Dashboard() {
     const saved = localStorage.getItem('taskflow_all_notes')
     return saved ? JSON.parse(saved) : DEFAULT_NOTES
   })
-  const [selectedDay, setSelectedDay] = useState('WED')
+  const [selectedDay, setSelectedDay] = useState(new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase())
 
   // Stats State
   const [stats, setStats] = useState({
@@ -252,7 +270,6 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Notification Bell */}
           <div className="relative" ref={notifRef}>
             <button
               onClick={() => setNotifOpen(!notifOpen)}
@@ -260,30 +277,16 @@ export default function Dashboard() {
               title="Notifications"
             >
               <Bell size={18} />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#B65D52] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#101C2B]">
-                3
-              </span>
             </button>
 
             {notifOpen && (
               <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#101C2B] border border-[#DEDCD5] dark:border-[#1E2D40] rounded-2xl shadow-xl p-3 z-50 animate-in fade-in">
                 <div className="px-3 py-2 border-b border-[#DEDCD5] dark:border-[#1E2D40] flex items-center justify-between">
                   <h4 className="font-serif font-bold text-sm text-[#17202A] dark:text-white">Notifications</h4>
-                  <span className="text-[11px] bg-[#E7F0EC] text-[#145A4A] font-bold px-2 py-0.5 rounded-full">3 New</span>
+                  <span className="text-[11px] bg-[#E7F0EC] text-[#145A4A] font-bold px-2 py-0.5 rounded-full">0 New</span>
                 </div>
-                <div className="divide-y divide-[#F1EFE9] dark:divide-[#1E2D40] max-h-60 overflow-y-auto">
-                  <div className="p-3 hover:bg-[#F1EFE9] dark:hover:bg-[#172638] rounded-xl transition-colors cursor-pointer" onClick={() => navigate('/calendar')}>
-                    <p className="text-xs font-bold text-[#17202A] dark:text-white">CEO Meeting in 30 mins</p>
-                    <p className="text-[11px] text-[#5F6872]">Conference Room • 09:00 AM</p>
-                  </div>
-                  <div className="p-3 hover:bg-[#F1EFE9] dark:hover:bg-[#172638] rounded-xl transition-colors cursor-pointer" onClick={() => navigate('/tasks')}>
-                    <p className="text-xs font-bold text-[#17202A] dark:text-white">Prepare Monthly Report</p>
-                    <p className="text-[11px] text-[#B78332]">Due today at 11:00 AM</p>
-                  </div>
-                  <div className="p-3 hover:bg-[#F1EFE9] dark:hover:bg-[#172638] rounded-xl transition-colors cursor-pointer" onClick={() => navigate('/tasks')}>
-                    <p className="text-xs font-bold text-[#17202A] dark:text-white">2 Tasks Overdue</p>
-                    <p className="text-[11px] text-[#B65D52]">Needs immediate attention</p>
-                  </div>
+                <div className="py-8 text-center">
+                  <p className="text-xs text-[#5F6872] dark:text-[#89919A]">You have no new notifications.</p>
                 </div>
               </div>
             )}

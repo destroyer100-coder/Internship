@@ -487,7 +487,7 @@ export default function Login() {
 
           {/* Footer Copyright */}
           <div className="text-center text-xs text-[#89919A] dark:text-gray-500 mt-6">
-            © 2026 <span className="font-semibold text-[#5F6872] dark:text-gray-400">TaskFlow</span>. All rights reserved.
+            © {new Date().getFullYear()} <span className="font-semibold text-[#5F6872] dark:text-gray-400">TaskFlow</span>. All rights reserved.
           </div>
         </div>
 

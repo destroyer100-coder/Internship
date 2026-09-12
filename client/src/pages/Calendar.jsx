@@ -27,8 +27,9 @@ const CATEGORY_STYLES = {
 
 export default function CalendarPage() {
   // Current view date (stores Year, Month, Day)
-  const [currentDate, setCurrentDate] = useState(() => new Date(2026, 7, 26)) // Aug 26, 2026
-  const [selectedDateStr, setSelectedDateStr] = useState('2026-08-26')
+  const todayReal = new Date()
+  const [currentDate, setCurrentDate] = useState(todayReal)
+  const [selectedDateStr, setSelectedDateStr] = useState(todayReal.toISOString().slice(0, 10))
   const [viewMode, setViewMode] = useState('Month') // 'Month' | 'Week' | 'Day'
   const [allTasks, setAllTasks] = useState(DEFAULT_TASKS_DATA)
 
@@ -112,9 +113,9 @@ export default function CalendarPage() {
   }
 
   const handleToday = () => {
-    const today = new Date(2026, 7, 26) // Centered on Aug 26, 2026 for consistent demo
+    const today = new Date()
     setCurrentDate(today)
-    setSelectedDateStr('2026-08-26')
+    setSelectedDateStr(today.toISOString().slice(0, 10))
   }
 
   // Header Title formatted dynamically
