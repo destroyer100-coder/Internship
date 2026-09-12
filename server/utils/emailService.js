@@ -1,38 +1,28 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-// Direct Gmail Transporter using Port 587 (STARTTLS) to prevent network socket drops
-const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
-const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
-const smtpUser = process.env.SMTP_USER || 'vanshjawla504@gmail.com';
-const smtpPass = (process.env.SMTP_PASS || 'ovntqeuliezyrirj').replace(/\s+/g, '');
-
-const transporter = nodemailer.createTransport({
-  host: smtpHost,
-  port: smtpPort,
-  secure: false, // Port 587 uses STARTTLS
-  requireTLS: true,
-  auth: {
-    user: smtpUser,
-    pass: smtpPass,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-  connectionTimeout: 15000,
-  greetingTimeout: 15000,
-  socketTimeout: 20000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ─── Reusable direct email sender ───────────────────────────────────────────
 const sendEmail = async (to, subject, html) => {
-  const info = await transporter.sendMail({
-    from: `TaskFlow <${smtpUser}>`,
-    to,
-    subject,
-    html,
-  });
-  console.log(`✉️ Direct email sent to ${to} (ID: ${info.messageId})`);
-  return info;
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'TaskFlow <onboarding@resend.dev>',
+      to,
+      subject,
+      html,
+    });
+    
+    if (error) {
+      console.error('❌ Resend API Error:', error);
+      throw new Error(error.message);
+    }
+    
+    console.log(`✉️ Direct email sent to ${to} via Resend (ID: ${data?.id})`);
+    return data;
+  } catch (err) {
+    console.error('❌ Failed to send email via Resend:', err.message);
+    throw err;
+  }
 };
 
 // ─── Wrap content in TaskFlow branded template ─────────────────────────────
