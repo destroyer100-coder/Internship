@@ -1,27 +1,32 @@
-const { Resend } = require('resend');
+const axios = require('axios');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
 
-// ─── Reusable direct email sender ───────────────────────────────────────────
+// ─── Reusable direct email sender (Brevo HTTP API) ─────────────────────────
 const sendEmail = async (to, subject, html) => {
   try {
-    const { data, error } = await resend.emails.send({
-      from: 'TaskFlow <onboarding@resend.dev>',
-      to,
-      subject,
-      html,
-    });
+    const response = await axios.post(
+      'https://api.brevo.com/v3/smtp/email',
+      {
+        sender: { name: 'TaskFlow', email: 'noreply@taskflow.app' },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: html,
+      },
+      {
+        headers: {
+          'api-key': BREVO_API_KEY,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      }
+    );
     
-    if (error) {
-      console.error('❌ Resend API Error:', error);
-      throw new Error(error.message);
-    }
-    
-    console.log(`✉️ Direct email sent to ${to} via Resend (ID: ${data?.id})`);
-    return data;
+    console.log(`✉️ Direct email sent to ${to} via Brevo (ID: ${response.data.messageId})`);
+    return response.data;
   } catch (err) {
-    console.error('❌ Failed to send email via Resend:', err.message);
-    throw err;
+    console.error('❌ Failed to send email via Brevo:', err.response?.data || err.message);
+    throw new Error(err.response?.data?.message || err.message);
   }
 };
 
