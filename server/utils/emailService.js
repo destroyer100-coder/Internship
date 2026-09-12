@@ -8,7 +8,7 @@ const sendEmail = async (to, subject, html) => {
     const response = await axios.post(
       'https://api.brevo.com/v3/smtp/email',
       {
-        sender: { name: 'TaskFlow', email: 'noreply@taskflow.app' },
+        sender: { name: 'TaskFlow', email: 'vanshjawla504@gmail.com' },
         to: [{ email: to }],
         subject: subject,
         htmlContent: html,
