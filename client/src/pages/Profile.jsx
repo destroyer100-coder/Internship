@@ -244,7 +244,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-12 animate-in fade-in duration-200">
+    <div className="max-w-5xl mx-auto p-6 lg:p-8 space-y-6 pb-12 animate-in fade-in duration-200">
       
       {/* 1. Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

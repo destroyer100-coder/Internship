@@ -387,9 +387,10 @@ export default function CalendarPage() {
 
           {/* VIEW MODE 1: MONTH VIEW */}
           {viewMode === 'Month' && (
-            <>
-              {/* Weekday Column Headers */}
-              <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold text-[#5F6872] dark:text-gray-400 uppercase tracking-wider py-2 border-b border-[#DEDCD5] dark:border-[#1E2D40]">
+            <div className="overflow-x-auto">
+              <div className="min-w-[600px]">
+                {/* Weekday Column Headers */}
+                <div className="grid grid-cols-7 gap-2 text-center text-xs font-bold text-[#5F6872] dark:text-gray-400 uppercase tracking-wider py-2 border-b border-[#DEDCD5] dark:border-[#1E2D40]">
                 <div>MON</div>
                 <div>TUE</div>
                 <div>WED</div>
@@ -454,42 +455,26 @@ export default function CalendarPage() {
                       </div>
 
                       {/* + X more label */}
-                      {cell.moreCount > 0 ? (
-                        <span className="text-[9px] font-semibold text-[#5F6872] dark:text-[#89919A] block text-center mt-auto">
-                          + {cell.moreCount} more
-                        </span>
-                      ) : <div className="h-2" />}
-
+                        {cell.moreCount > 0 && (
+                          <div className="text-[10px] font-bold text-[#89919A] text-center mt-1">
+                            +{cell.moreCount} more
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )
                 })}
               </div>
-
-              {/* Bottom Legend */}
-              <div className="flex flex-wrap items-center justify-center gap-6 pt-4 border-t border-[#DEDCD5] dark:border-[#1E2D40] text-xs font-medium text-[#5F6872] dark:text-[#89919A]">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#4F8068]" />
-                  <span>Task</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#61758A]" />
-                  <span>Event</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#B78332]" />
-                  <span>Reminder</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#765C78]" />
-                  <span>Note</span>
-                </div>
               </div>
-            </>
+            </div>
           )}
+
+
 
           {/* VIEW MODE 2: WEEK VIEW */}
           {viewMode === 'Week' && (
-            <div className="space-y-4 pt-2">
+            <div className="space-y-4 pt-2 overflow-x-auto">
+              <div className="min-w-[600px]">
               <div className="grid grid-cols-7 gap-2">
                 {weekDays.map((w, wIdx) => {
                   const isSelected = w.dateStr === selectedDateStr
@@ -536,6 +521,7 @@ export default function CalendarPage() {
                     </div>
                   )
                 })}
+              </div>
               </div>
             </div>
           )}

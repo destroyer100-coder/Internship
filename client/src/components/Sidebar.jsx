@@ -17,7 +17,7 @@ const navItems = [
   { to: '/profile',   icon: User,        label: 'Profile & Settings'},
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ setMobileSidebarOpen }) {
   const [collapsed, setCollapsed] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { logout, user } = useAuth()
@@ -75,6 +75,7 @@ export default function Sidebar() {
               }
               ${collapsed ? 'justify-center px-2' : ''}`
             }
+            onClick={() => setMobileSidebarOpen && setMobileSidebarOpen(false)}
             title={collapsed ? label : ''}
           >
             <Icon size={18} className="flex-shrink-0" />
@@ -85,7 +86,10 @@ export default function Sidebar() {
         {/* Sidebar Quick Add button */}
         <div className="pt-3 px-1">
           <button
-            onClick={() => navigate('/tasks')}
+            onClick={() => {
+              navigate('/tasks')
+              if (setMobileSidebarOpen) setMobileSidebarOpen(false)
+            }}
             className={`w-full py-2.5 px-3 rounded-xl border border-[#1E2D40] hover:border-[#145A4A] bg-[#172638] hover:bg-[#1E2D40] text-[#DEDCD5] hover:text-white text-xs font-semibold flex items-center gap-2 transition-all ${collapsed ? 'justify-center px-2' : ''}`}
             title="Quick Add"
           >

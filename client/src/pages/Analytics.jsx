@@ -61,7 +61,7 @@ export default function Analytics() {
   const priorityChartData = Object.entries(data.byPriority || {}).map(([name, value]) => ({ name, value }))
 
   return (
-    <div className="space-y-6">
+    <div className="p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
       <h1 className="text-2xl lg:text-3xl font-bold font-serif text-[#17202A] dark:text-white">Analytics</h1>
 
       {/* Stats */}
