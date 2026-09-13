@@ -5,7 +5,7 @@ const API = axios.create({
 })
 
 API.interceptors.request.use((config) => {
-  const user = JSON.parse(localStorage.getItem('taskflow_user') || '{}')
+  const user = JSON.parse(sessionStorage.getItem('taskflow_user') || '{}')
   if (user?.token) config.headers.Authorization = `Bearer ${user.token}`
   return config
 })
