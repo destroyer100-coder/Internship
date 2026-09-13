@@ -64,6 +64,7 @@ export default function Dashboard() {
   const [editingNote, setEditingNote] = useState(null)
   const [quickAddOpen, setQuickAddOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
+  const [notifications, setNotifications] = useState([])
   const [planMenuOpenId, setPlanMenuOpenId] = useState(null)
 
   // Timeline & Notes state
@@ -106,6 +107,13 @@ export default function Dashboard() {
         const overdue = data.filter(t => t.dueDate && t.dueDate < todayStr && t.status !== 'Completed').length
         const completed = todayTasks.filter(t => t.status === 'Completed').length
         const events = todayTasks.filter(t => t.category === 'Work' && t.title.toLowerCase().includes('meeting')).length
+
+        // Compute notifications
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+        const dueTasks = data.filter(t => t.status !== 'Completed' && new Date(t.dueDate) < tomorrow)
+                             .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+        setNotifications(dueTasks.slice(0, 5))
 
         setStats(prev => ({
           ...prev,
@@ -277,16 +285,44 @@ export default function Dashboard() {
               title="Notifications"
             >
               <Bell size={18} />
+              {notifications.length > 0 && (
+                <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#B65D52] border-2 border-white dark:border-[#101C2B] rounded-full"></span>
+              )}
             </button>
 
             {notifOpen && (
               <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#101C2B] border border-[#DEDCD5] dark:border-[#1E2D40] rounded-2xl shadow-xl p-3 z-50 animate-in fade-in">
                 <div className="px-3 py-2 border-b border-[#DEDCD5] dark:border-[#1E2D40] flex items-center justify-between">
                   <h4 className="font-serif font-bold text-sm text-[#17202A] dark:text-white">Notifications</h4>
-                  <span className="text-[11px] bg-[#E7F0EC] text-[#145A4A] font-bold px-2 py-0.5 rounded-full">0 New</span>
+                  {notifications.length > 0 && (
+                    <span className="text-[11px] bg-[#E7F0EC] text-[#145A4A] font-bold px-2 py-0.5 rounded-full">{notifications.length} New</span>
+                  )}
                 </div>
-                <div className="py-8 text-center">
-                  <p className="text-xs text-[#5F6872] dark:text-[#89919A]">You have no new notifications.</p>
+                <div className="py-2 max-h-64 overflow-y-auto">
+                  {notifications.length === 0 ? (
+                    <div className="py-6 text-center">
+                      <p className="text-xs text-[#5F6872] dark:text-[#89919A]">You have no new notifications.</p>
+                    </div>
+                  ) : (
+                    notifications.map(task => {
+                      const isOverdue = new Date(task.dueDate) < new Date(new Date().setHours(0,0,0,0));
+                      return (
+                        <div 
+                          key={task._id} 
+                          onClick={() => { setNotifOpen(false); navigate(`/tasks`); }}
+                          className="px-3 py-3 hover:bg-[#F1EFE9] dark:hover:bg-[#172638] cursor-pointer rounded-lg transition-colors flex flex-col gap-1"
+                        >
+                          <p className="text-sm font-medium text-[#17202A] dark:text-white line-clamp-1">{task.title}</p>
+                          <div className="flex items-center gap-1.5">
+                            <CalIcon size={12} className={isOverdue ? 'text-[#B65D52]' : 'text-[#B78332]'} />
+                            <span className={`text-xs font-semibold ${isOverdue ? 'text-[#B65D52]' : 'text-[#B78332]'}`}>
+                              {isOverdue ? 'Overdue' : 'Due Today'}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
                 </div>
               </div>
             )}
