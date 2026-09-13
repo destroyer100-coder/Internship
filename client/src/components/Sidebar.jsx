@@ -24,7 +24,7 @@ export default function Sidebar({ setMobileSidebarOpen }) {
   const { customAvatar } = useTheme()
   const navigate = useNavigate()
 
-  const handleLogout = () => { logout(); navigate('/login') }
+  const handleLogout = () => { logout(); navigate('/login', { replace: true }) }
 
   const displayName = user?.name || 'Vansh Sharma'
   const displayEmail = user?.email || 'vansh.sharma@example.com'

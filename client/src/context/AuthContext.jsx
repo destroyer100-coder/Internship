@@ -7,24 +7,24 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const stored = sessionStorage.getItem('taskflow_user')
+    const stored = localStorage.getItem('taskflow_user')
     if (stored) setUser(JSON.parse(stored))
     setLoading(false)
   }, [])
 
   const login = (userData) => {
     setUser(userData)
-    sessionStorage.setItem('taskflow_user', JSON.stringify(userData))
+    localStorage.setItem('taskflow_user', JSON.stringify(userData))
   }
 
   const logout = () => {
     setUser(null)
-    sessionStorage.removeItem('taskflow_user')
+    localStorage.removeItem('taskflow_user')
   }
 
   const updateUser = (userData) => {
     setUser(userData)
-    sessionStorage.setItem('taskflow_user', JSON.stringify(userData))
+    localStorage.setItem('taskflow_user', JSON.stringify(userData))
   }
 
   return (
