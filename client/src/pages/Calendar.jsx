@@ -460,7 +460,6 @@ export default function CalendarPage() {
                             +{cell.moreCount} more
                           </div>
                         )}
-                      </div>
                     </div>
                   )
                 })}
